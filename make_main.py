@@ -8,8 +8,8 @@ path = '/eos/cms/store/group/comm_fastsim/'
 samples = [
 'RezaAnalysis_1GeV',
 'RezaAnalysis_2GeV',
-'RezaAnalysis_5GeV'
-'RezaAnalysis_7GeV'
+'RezaAnalysis_5GeV',
+'RezaAnalysis_7GeV',
 'RezaAnalysis_10GeV',
 'RezaAnalysis_15GeV',
 'RezaAnalysis_20GeV',
