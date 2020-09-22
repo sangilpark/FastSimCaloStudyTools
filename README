@@ -1,0 +1,9 @@
+root -l
+
+.L main_GFlash.C
+
+.L GFlash.C
+
+main()
+
+draw_plot.py
