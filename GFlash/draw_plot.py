@@ -25,6 +25,8 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 
     a,b = label_name.split("_")
     SampleEnergy = b.replace('.root','')
+    print SampleEnergy 
+    
     canvas = ROOT.TCanvas(can_name,can_name,1100,600)
     canvas.cd()
 
@@ -1204,6 +1206,73 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 	    	f3.Draw("same")
 		legend.Draw()
 		
+	    elif SampleEnergy == "7GeV":
+		f = TF1("doublelandaugaus","landau(0)+landau(3)+gaus(6)",0,1)
+	    	f.SetParName(0,"landau1.Constant")
+	    	f.SetParName(1,"landau1.MPV")
+	    	f.SetParName(2,"landau1.Sigma")
+	    	f.SetParName(3,"landau2.Constant")
+	    	f.SetParName(4,"landau2.MPV")
+	    	f.SetParName(5,"landau2.Sigma")
+	    	f.SetParName(6,"gaus2.Constant")
+	    	f.SetParName(7,"gaus2.Mean")
+	    	f.SetParName(8,"gaus2.Sigma")
+	  
+		
+		# Initial value and limit
+	    	f.SetParameter(0,5000)
+	    	f.SetParLimits(0,0,10000)
+	    	
+		f.SetParameter(1,0.05)
+	    	f.SetParLimits(1,0,0.1)
+	    	
+		f.SetParameter(2,0.03)
+	    	f.SetParLimits(2,0,0.1)
+	    	
+	    	f.SetParameter(3,1000)
+	    	f.SetParLimits(3,0,10000)
+	    	
+		f.SetParameter(4,0.1)
+	    	f.SetParLimits(4,0.05,0.25)
+	    	
+		f.SetParameter(5,0.1)
+	    	f.SetParLimits(5,0,1)
+	    	
+	    	f.SetParameter(6,300)
+	    	f.SetParLimits(6,0,1000)
+	    	
+		f.SetParameter(7,0.5)
+	    	f.SetParLimits(7,0.3,0.7)
+	    	
+		f.SetParameter(8,0.1)
+	    	f.SetParLimits(8,0,1)
+		
+		hist.Fit(f,"S",'',0,1)
+		f1 = TF1("landau1","landau",0,1.0)
+		f2 = TF1("landau2","landau",0,1.0)
+		f3 = TF1("gaus","gaus",0,1.0)
+		
+		f1.SetParameter(0,f.GetParameter(0))
+	    	f1.SetParameter(1,f.GetParameter(1))
+	    	f1.SetParameter(2,f.GetParameter(2))
+	    	f2.SetParameter(0,f.GetParameter(3))
+	    	f2.SetParameter(1,f.GetParameter(4))
+	    	f2.SetParameter(2,f.GetParameter(5))
+	    	f3.SetParameter(0,f.GetParameter(6))
+	    	f3.SetParameter(1,f.GetParameter(7))
+	    	f3.SetParameter(2,f.GetParameter(8))
+	    	f1.SetLineColor(6)
+	    	f2.SetLineColor(3)
+	    	f3.SetLineColor(5)
+	    
+		rp = TRatioPlot(hist)
+		rp.Draw()
+		rp.GetUpperPad().cd()
+	    	f1.Draw("same")
+	    	f2.Draw("same")
+	    	f3.Draw("same")
+		legend.Draw()
+		
 	    elif SampleEnergy == "10GeV":
 		f = TF1("landaugaus","landau(0)+gaus(3)",0,1)
 	    	f.SetParName(0,"landau.Constant")
@@ -1252,7 +1321,151 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 	    	f2.Draw("same")
 		legend.Draw()
 		
-	    elif b == "20GeV":
+	    elif SampleEnergy == "15GeV":
+		f = TF1("landaugaus","landau(0)+gaus(3)",0,1)
+	    	f.SetParName(0,"landau.Constant")
+	    	f.SetParName(1,"landau.MPV")
+	    	f.SetParName(2,"landau.Sigma")
+	    	f.SetParName(3,"gaus.Constant")
+	    	f.SetParName(4,"gaus.Mean")
+	    	f.SetParName(5,"gaus.Sigma")
+	  
+		# Initial value and limit
+	    	f.SetParameter(0,3000)
+	    	f.SetParLimits(0,0,10000)
+	    	
+		f.SetParameter(1,0.1)
+	    	f.SetParLimits(1,0,1)
+	    	
+		f.SetParameter(2,0.1)
+	    	f.SetParLimits(2,0,1)
+	    	
+	    	f.SetParameter(3,1000)
+	    	f.SetParLimits(3,0,10000)
+	    	
+		f.SetParameter(4,0.5)
+	    	f.SetParLimits(4,0,1)
+	    	
+		f.SetParameter(5,0.1)
+	    	f.SetParLimits(5,0,1)
+	    	
+		hist.Fit(f,"S",'',0,1)
+		f1 = TF1("landau","landau",0,1.0)
+		f2 = TF1("gaus","gaus",0,1.0)
+		
+		f1.SetParameter(0,f.GetParameter(0))
+	    	f1.SetParameter(1,f.GetParameter(1))
+	    	f1.SetParameter(2,f.GetParameter(2))
+	    	f2.SetParameter(0,f.GetParameter(3))
+	    	f2.SetParameter(1,f.GetParameter(4))
+	    	f2.SetParameter(2,f.GetParameter(5))
+	    	f1.SetLineColor(6)
+	    	f2.SetLineColor(3)
+	    
+		rp = TRatioPlot(hist)
+		rp.Draw()
+		rp.GetUpperPad().cd()
+	    	f1.Draw("same")
+	    	f2.Draw("same")
+		legend.Draw()
+		
+	    elif SampleEnergy == "20GeV":
+		f = TF1("doublegaus","gaus(0)+gaus(3)",0,1)
+	    	f.SetParName(0,"gaus1.Constant")
+	    	f.SetParName(1,"gaus1.Mean")
+	    	f.SetParName(2,"gaus1.Sigma")
+	    	f.SetParName(3,"gaus2.Constant")
+	    	f.SetParName(4,"gaus2.Mean")
+	    	f.SetParName(5,"gaus2.Sigma")
+		
+		# Initial value and limit
+	    	f.SetParameter(0,1000)
+	    	f.SetParLimits(0,0,10000)
+	    	
+		f.SetParameter(1,0.5)
+	    	f.SetParLimits(1,0.3,1)
+	    	
+		f.SetParameter(2,0.1)
+	    	f.SetParLimits(2,0,1)
+	    	
+		f.SetParameter(3,1000)
+	    	f.SetParLimits(3,0,3000)
+	    	
+		f.SetParameter(4,0.7)
+	    	f.SetParLimits(4,0.3,1)
+	    	
+		f.SetParameter(5,0.1)
+	    	f.SetParLimits(5,0,1)
+	   
+		hist.Fit(f,"S",'',0,1.0)
+		f1 = TF1("gaus1","gaus",0,1.0)
+	    	f2 = TF1("gaus2","gaus",0,1.0)
+		
+		f1.SetParameter(0,f.GetParameter(0))
+	    	f1.SetParameter(1,f.GetParameter(1))
+	    	f1.SetParameter(2,f.GetParameter(2))
+	    	f2.SetParameter(0,f.GetParameter(3))
+	    	f2.SetParameter(1,f.GetParameter(4))
+	    	f2.SetParameter(2,f.GetParameter(5))
+	    	f1.SetLineColor(6)
+	    	f2.SetLineColor(3)
+	    
+		rp = TRatioPlot(hist)
+		rp.Draw()
+		rp.GetUpperPad().cd()
+	    	f1.Draw("same")
+	    	f2.Draw("same")
+		legend.Draw()
+		
+	    elif SampleEnergy == "30GeV":
+		f = TF1("doublegaus","gaus(0)+gaus(3)",0,1)
+	    	f.SetParName(0,"gaus1.Constant")
+	    	f.SetParName(1,"gaus1.Mean")
+	    	f.SetParName(2,"gaus1.Sigma")
+	    	f.SetParName(3,"gaus2.Constant")
+	    	f.SetParName(4,"gaus2.Mean")
+	    	f.SetParName(5,"gaus2.Sigma")
+		
+		# Initial value and limit
+	    	f.SetParameter(0,1000)
+	    	f.SetParLimits(0,0,10000)
+	    	
+		f.SetParameter(1,0.5)
+	    	f.SetParLimits(1,0.3,1)
+	    	
+		f.SetParameter(2,0.1)
+	    	f.SetParLimits(2,0,1)
+	    	
+		f.SetParameter(3,1000)
+	    	f.SetParLimits(3,0,3000)
+	    	
+		f.SetParameter(4,0.7)
+	    	f.SetParLimits(4,0.3,1)
+	    	
+		f.SetParameter(5,0.1)
+	    	f.SetParLimits(5,0,1)
+	   
+		hist.Fit(f,"S",'',0,1.0)
+		f1 = TF1("gaus1","gaus",0,1.0)
+	    	f2 = TF1("gaus2","gaus",0,1.0)
+		
+		f1.SetParameter(0,f.GetParameter(0))
+	    	f1.SetParameter(1,f.GetParameter(1))
+	    	f1.SetParameter(2,f.GetParameter(2))
+	    	f2.SetParameter(0,f.GetParameter(3))
+	    	f2.SetParameter(1,f.GetParameter(4))
+	    	f2.SetParameter(2,f.GetParameter(5))
+	    	f1.SetLineColor(6)
+	    	f2.SetLineColor(3)
+	    
+		rp = TRatioPlot(hist)
+		rp.Draw()
+		rp.GetUpperPad().cd()
+	    	f1.Draw("same")
+	    	f2.Draw("same")
+		legend.Draw()
+		
+	    elif SampleEnergy == "40GeV":
 		f = TF1("doublegaus","gaus(0)+gaus(3)",0,1)
 	    	f.SetParName(0,"gaus1.Constant")
 	    	f.SetParName(1,"gaus1.Mean")
@@ -1348,7 +1561,55 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 	    	f2.Draw("same")
 		legend.Draw()
 
-	    elif b == "100GeV":
+	    elif SampleEnergy == "70GeV":
+		f = TF1("doublegaus","gaus(0)+gaus(3)",0,1)
+	    	f.SetParName(0,"gaus1.Constant")
+	    	f.SetParName(1,"gaus1.Mean")
+	    	f.SetParName(2,"gaus1.Sigma")
+	    	f.SetParName(3,"gaus2.Constant")
+	    	f.SetParName(4,"gaus2.Mean")
+	    	f.SetParName(5,"gaus2.Sigma")
+		
+		# Initial value and limit
+	    	f.SetParameter(0,1000)
+	    	f.SetParLimits(0,0,10000)
+	    	
+		f.SetParameter(1,0.5)
+	    	f.SetParLimits(1,0.3,1)
+	    	
+		f.SetParameter(2,0.1)
+	    	f.SetParLimits(2,0,1)
+	    	
+		f.SetParameter(3,1000)
+	    	f.SetParLimits(3,0,3000)
+	    	
+		f.SetParameter(4,0.7)
+	    	f.SetParLimits(4,0.3,1)
+	    	
+		f.SetParameter(5,0.1)
+	    	f.SetParLimits(5,0,1)
+	   
+		hist.Fit(f,"S",'',0,1.0)
+		f1 = TF1("gaus1","gaus",0,1.0)
+	    	f2 = TF1("gaus2","gaus",0,1.0)
+		
+		f1.SetParameter(0,f.GetParameter(0))
+	    	f1.SetParameter(1,f.GetParameter(1))
+	    	f1.SetParameter(2,f.GetParameter(2))
+	    	f2.SetParameter(0,f.GetParameter(3))
+	    	f2.SetParameter(1,f.GetParameter(4))
+	    	f2.SetParameter(2,f.GetParameter(5))
+	    	f1.SetLineColor(6)
+	    	f2.SetLineColor(3)
+		
+		rp = TRatioPlot(hist)
+		rp.Draw()
+		rp.GetUpperPad().cd()
+	    	f1.Draw("same")
+	    	f2.Draw("same")
+		legend.Draw()
+
+	    elif SampleEnergy == "100GeV":
 		f = TF1("doublegaus","gaus(0)+gaus(3)",0,1)
 	    	f.SetParName(0,"gaus1.Constant")
 	    	f.SetParName(1,"gaus1.Mean")
@@ -1716,18 +1977,18 @@ def drawLinearityCheck():
 
 samples = [
 #'HistRezaAnalysis_200GeV.root',
-'HistRezaAnalysis_100GeV.root',
-'HistRezaAnalysis_70GeV.root',
-'HistRezaAnalysis_50GeV.root',
-'HistRezaAnalysis_40GeV.root',
-'HistRezaAnalysis_30GeV.root',
-'HistRezaAnalysis_20GeV.root',
-'HistRezaAnalysis_15GeV.root',
+#'HistRezaAnalysis_100GeV.root',
+#'HistRezaAnalysis_70GeV.root',
+#'HistRezaAnalysis_50GeV.root',
+#'HistRezaAnalysis_40GeV.root',
+#'HistRezaAnalysis_30GeV.root',
+#'HistRezaAnalysis_20GeV.root',
+#'HistRezaAnalysis_15GeV.root',
 'HistRezaAnalysis_10GeV.root',
-'HistRezaAnalysis_7GeV.root',
-'HistRezaAnalysis_5GeV.root',
-'HistRezaAnalysis_2GeV.root',
-'HistRezaAnalysis_1GeV.root',
+#'HistRezaAnalysis_7GeV.root',
+#'HistRezaAnalysis_5GeV.root',
+#'HistRezaAnalysis_2GeV.root',
+#'HistRezaAnalysis_1GeV.root',
 ]
 
 #variable = ['fDp','fPi0','fPi0L', 'Class']
