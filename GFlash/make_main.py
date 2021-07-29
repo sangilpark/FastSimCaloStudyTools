@@ -4,7 +4,8 @@ import subprocess
 import readline
 import string
 
-path = '/eos/cms/store/group/comm_fastsim/'
+#path = '/eos/cms/store/group/comm_fastsim/'
+path = '~/SE_UserHome/FastSimCalo/200k/'
 samples = [
 'RezaAnalysis_1GeV',
 'RezaAnalysis_2GeV',

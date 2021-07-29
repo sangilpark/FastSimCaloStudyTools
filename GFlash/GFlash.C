@@ -90,13 +90,30 @@ void GFlash::Loop(TString fname)
 
    double hcalradlen =14.3;
    double hcalintlen =185;
-   TH1F *fDp, *fPi0, *fPi0L;
+   TH1F *fDp, *fDp_SPbeforeECAL, *fDp_SPinECAL, *fDp_SPinHCAL;
+   TH1F *fPi0, *fPi0_SPbeforeECAL, *fPi0_SPinECAL, *fPi0_SPinHCAL;
+   TH1F *fPi0L, *fPi0L_SPbeforeECAL, *fPi0L_SPinECAL, *fPi0L_SPinHCAL;
    TH1F *HADshapeIL;
-   TH1F *Class;
+   TH1F *Class, *Class_SPbeforeECAL, *Class_SPinECAL, *Class_SPinHCAL;
    fDp = new TH1F( "fDp", "fDp" ,   100, 0  , 1    );
+   fDp_SPbeforeECAL = new TH1F( "fDp_SPbeforeECAL", "fDp_SPbeforeECAL" ,   100, 0  , 1    );
+   fDp_SPinECAL = new TH1F( "fDp_SPinECAL", "fDp_SPinECAL" ,   100, 0  , 1    );
+   fDp_SPinHCAL = new TH1F( "fDp_SPinHCAL", "fDp_SPinHCAL" ,   100, 0  , 1    );
+   
    fPi0 = new TH1F( "fPi0", "fPi0" ,   50, 0  , 1    );
+   fPi0_SPbeforeECAL = new TH1F( "fPi0_SPbeforeECAL", "fPi0_SPbeforeECAL" ,   100, 0  , 1    );
+   fPi0_SPinECAL = new TH1F( "fPi0_SPinECAL", "fPi0_SPinECAL" ,   100, 0  , 1    );
+   fPi0_SPinHCAL = new TH1F( "fPi0_SPinHCAL", "fPi0_SPinHCAL" ,   100, 0  , 1    );
+   
    fPi0L = new TH1F( "fPi0L", "fPi0L" ,   50, 0  , 1    );
+   fPi0L_SPbeforeECAL = new TH1F( "fPi0L_SPbeforeECAL", "fPi0L_SPbeforeECAL" ,   100, 0  , 1    );
+   fPi0L_SPinECAL = new TH1F( "fPi0L_SPinECAL", "fPi0L_SPinECAL" ,   100, 0  , 1    );
+   fPi0L_SPinHCAL = new TH1F( "fPi0L_SPinHCAL", "fPi0L_SPinHCAL" ,   100, 0  , 1    );
+   
    Class = new TH1F( "Class", "Class" ,   4, 0  , 4    );
+   Class_SPbeforeECAL = new TH1F( "Class_SPbeforeECAL", "Class_SPbeforeECAL" ,   4, 0  , 4    );
+   Class_SPinECAL = new TH1F( "Class_SPinECAL", "Class_SPinECAL" ,   4, 0  , 4    );
+   Class_SPinHCAL = new TH1F( "Class_SPinHCAL", "Class_SPinHCAL" ,   4, 0  , 4    );
 
    if (fChain == 0) return;
 
@@ -120,6 +137,7 @@ void GFlash::Loop(TString fname)
       }
 
       delete HADshapeIL;
+
       fDp->Fill(sim_eTotal/p_E);
       if(sim_ePi0First+sim_ePi0Late !=0) fPi0->Fill((sim_ePi0First+sim_ePi0Late)/sim_eTotal);
       if(sim_ePi0First!=0 && sim_ePi0Late !=0) fPi0L->Fill(sim_ePi0Late/(sim_ePi0First+sim_ePi0Late));
@@ -128,6 +146,47 @@ void GFlash::Loop(TString fname)
       if(sim_ePi0First!=0 && sim_ePi0Late ==0) Class->Fill(1.5,1/N);   
       if(sim_ePi0First==0 && sim_ePi0Late !=0) Class->Fill(2.5,1/N);
       if(sim_ePi0First!=0 && sim_ePi0Late !=0) Class->Fill(3.5,1/N);
+	
+      // SP before ECAL
+      if(sim_pvIneInt_z<1290){
+	fDp_SPbeforeECAL->Fill(sim_eTotal/p_E);
+      	if(sim_ePi0First+sim_ePi0Late !=0) fPi0_SPbeforeECAL->Fill((sim_ePi0First+sim_ePi0Late)/sim_eTotal);
+      	if(sim_ePi0First!=0 && sim_ePi0Late !=0) fPi0L_SPbeforeECAL->Fill(sim_ePi0Late/(sim_ePi0First+sim_ePi0Late));
+        if(sim_ePi0First+sim_ePi0Late ==0) Class_SPbeforeECAL->Fill(0.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late ==0) Class_SPbeforeECAL->Fill(1.5,1/N);   
+        if(sim_ePi0First==0 && sim_ePi0Late !=0) Class_SPbeforeECAL->Fill(2.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late !=0) Class_SPbeforeECAL->Fill(3.5,1/N);
+      };
+
+      // SP in ECAL
+      if(sim_pvIneInt_z>1290 && sim_pvIneInt_z<1790){
+	fDp_SPinECAL->Fill(sim_eTotal/p_E);
+      	if(sim_ePi0First+sim_ePi0Late !=0) fPi0_SPinECAL->Fill((sim_ePi0First+sim_ePi0Late)/sim_eTotal);
+      	if(sim_ePi0First!=0 && sim_ePi0Late !=0) fPi0L_SPinECAL->Fill(sim_ePi0Late/(sim_ePi0First+sim_ePi0Late));
+        if(sim_ePi0First+sim_ePi0Late ==0) Class_SPinECAL->Fill(0.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late ==0) Class_SPinECAL->Fill(1.5,1/N);   
+        if(sim_ePi0First==0 && sim_ePi0Late !=0) Class_SPinECAL->Fill(2.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late !=0) Class_SPinECAL->Fill(3.5,1/N);
+	// SP in ECAL, Edep in ECAL
+	
+      };
+      
+      // SP in HCAL
+      if(sim_pvIneInt_z>1790 && sim_pvIneInt_z<2950){
+	fDp_SPinHCAL->Fill(sim_eTotal/p_E);
+      	if(sim_ePi0First+sim_ePi0Late !=0) fPi0_SPinHCAL->Fill((sim_ePi0First+sim_ePi0Late)/sim_eTotal);
+      	if(sim_ePi0First!=0 && sim_ePi0Late !=0) fPi0L_SPinHCAL->Fill(sim_ePi0Late/(sim_ePi0First+sim_ePi0Late));
+        if(sim_ePi0First+sim_ePi0Late ==0) Class_SPinHCAL->Fill(0.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late ==0) Class_SPinHCAL->Fill(1.5,1/N);   
+        if(sim_ePi0First==0 && sim_ePi0Late !=0) Class_SPinHCAL->Fill(2.5,1/N);
+        if(sim_ePi0First!=0 && sim_ePi0Late !=0) Class_SPinHCAL->Fill(3.5,1/N);
+      };
+
+      //if(sim_pvIneInt_z>2950){
+      //};
+
+
+
 
   }
   const Int_t nx = 4;
@@ -216,12 +275,36 @@ void GFlash::Loop(TString fname)
 //   delete c1;
 
   fPi0->Write("",TObject::kOverwrite);
+  fPi0_SPbeforeECAL->Write("",TObject::kOverwrite);
+  fPi0_SPinECAL->Write("",TObject::kOverwrite);
+  fPi0_SPinHCAL->Write("",TObject::kOverwrite);
   fDp->Write("",TObject::kOverwrite);
+  fDp_SPbeforeECAL->Write("",TObject::kOverwrite);
+  fDp_SPinECAL->Write("",TObject::kOverwrite);
+  fDp_SPinHCAL->Write("",TObject::kOverwrite);
   fPi0L->Write("",TObject::kOverwrite);
+  fPi0L_SPbeforeECAL->Write("",TObject::kOverwrite);
+  fPi0L_SPinECAL->Write("",TObject::kOverwrite);
+  fPi0L_SPinHCAL->Write("",TObject::kOverwrite);
   Class->Write("",TObject::kOverwrite);
+  Class_SPbeforeECAL->Write("",TObject::kOverwrite);
+  Class_SPinECAL->Write("",TObject::kOverwrite);
+  Class_SPinHCAL->Write("",TObject::kOverwrite);
   delete fPi0;
+  delete fPi0_SPbeforeECAL;
+  delete fPi0_SPinECAL;
+  delete fPi0_SPinHCAL;
   delete fDp;
+  delete fDp_SPbeforeECAL;
+  delete fDp_SPinECAL;
+  delete fDp_SPinHCAL;
   delete fPi0L;
+  delete fPi0L_SPbeforeECAL;
+  delete fPi0L_SPinECAL;
+  delete fPi0L_SPinHCAL;
   delete Class;
+  delete Class_SPbeforeECAL;
+  delete Class_SPinECAL;
+  delete Class_SPinHCAL;
   f->Close();
 }

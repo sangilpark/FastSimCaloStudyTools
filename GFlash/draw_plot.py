@@ -17,7 +17,7 @@ from ROOT import *
 
 mean_dict = collections.OrderedDict()
 
-def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False):
+def draw1dHist(hist,textA="A", label_name="sample", can_name="can", outputdir='./plots', doFit=False):
     ROOT.gStyle.SetOptStat(1111);
     #ROOT.gStyle.SetOptStat(0);
     if doFit : 
@@ -36,7 +36,8 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 
     legend = TLegend(0.7,0.7,0.9,0.9)
     
-    
+    if hist.Integral()==0 : print 'no entry.'; pass
+
     hist.Scale(1/hist.Integral())
     hist.SetLineColor( 4 )
     hist.SetLineWidth( 2 )
@@ -1905,7 +1906,7 @@ def draw1dHist(hist,textA="A", label_name="sample", can_name="can", doFit=False)
 	
 
 
-    canvas.Print("./plots/1D_" + SampleEnergy +"_"+ textA + ".png")
+    canvas.Print(outputdir+"/1D_" + SampleEnergy +"_"+ textA + ".png")
     del canvas
     gc.collect()
 
@@ -1976,7 +1977,11 @@ def drawLinearityCheck():
     gc.collect()
 
 samples = [
+#'HistRezaAnalysis_500GeV.root',
+#'HistRezaAnalysis_400GeV.root',
+'HistRezaAnalysis_300GeV.root',
 #'HistRezaAnalysis_200GeV.root',
+#'HistRezaAnalysis_150GeV.root',
 #'HistRezaAnalysis_100GeV.root',
 #'HistRezaAnalysis_70GeV.root',
 #'HistRezaAnalysis_50GeV.root',
@@ -1984,7 +1989,7 @@ samples = [
 #'HistRezaAnalysis_30GeV.root',
 #'HistRezaAnalysis_20GeV.root',
 #'HistRezaAnalysis_15GeV.root',
-'HistRezaAnalysis_10GeV.root',
+#'HistRezaAnalysis_10GeV.root',
 #'HistRezaAnalysis_7GeV.root',
 #'HistRezaAnalysis_5GeV.root',
 #'HistRezaAnalysis_2GeV.root',
@@ -1992,12 +1997,13 @@ samples = [
 ]
 
 #variable = ['fDp','fPi0','fPi0L', 'Class']
-variable = ['fDp']
-#variable = ['fPi0']
+#variable = ['fDp','fDp_SPbeforeECAL','fDp_SPinECAL','fDp_SPinHCAL']
+variable = ['fPi0','fPi0_SPbeforeECAL','fPi0_SPinECAL','fPi0_SPinHCAL']
 #variable = ['fPi0L']
 
-if not os.path.exists('./plots'):
-    os.system('mkdir -p plots')
+outputdir = './plots_fPi0'
+if not os.path.exists(outputdir):
+    os.system('mkdir -p '+outputdir)
 
 for num, sample in enumerate(samples):
     for v in variable:
@@ -2007,7 +2013,8 @@ for num, sample in enumerate(samples):
             continue
         histA = file1.Get(v)
 	print 'sample:{}, variable:{}'.format(sample, v)
-        draw1dHist(histA, v, sample, doFit=True)
+        #draw1dHist(histA, v, sample, doFit=True)
+        draw1dHist(histA, v, sample, outputdir=outputdir, doFit=False)
         del histA
 
 
