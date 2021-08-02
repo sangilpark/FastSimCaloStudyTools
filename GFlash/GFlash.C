@@ -100,12 +100,12 @@ void GFlash::Loop(TString fname)
    fDp_SPinECAL = new TH1F( "fDp_SPinECAL", "fDp_SPinECAL" ,   100, 0  , 1    );
    fDp_SPinHCAL = new TH1F( "fDp_SPinHCAL", "fDp_SPinHCAL" ,   100, 0  , 1    );
    
-   fPi0 = new TH1F( "fPi0", "fPi0" ,   50, 0  , 1    );
+   fPi0 = new TH1F( "fPi0", "fPi0" ,   100, 0  , 1    );
    fPi0_SPbeforeECAL = new TH1F( "fPi0_SPbeforeECAL", "fPi0_SPbeforeECAL" ,   100, 0  , 1    );
    fPi0_SPinECAL = new TH1F( "fPi0_SPinECAL", "fPi0_SPinECAL" ,   100, 0  , 1    );
    fPi0_SPinHCAL = new TH1F( "fPi0_SPinHCAL", "fPi0_SPinHCAL" ,   100, 0  , 1    );
    
-   fPi0L = new TH1F( "fPi0L", "fPi0L" ,   50, 0  , 1    );
+   fPi0L = new TH1F( "fPi0L", "fPi0L" ,   100, 0  , 1    );
    fPi0L_SPbeforeECAL = new TH1F( "fPi0L_SPbeforeECAL", "fPi0L_SPbeforeECAL" ,   100, 0  , 1    );
    fPi0L_SPinECAL = new TH1F( "fPi0L_SPinECAL", "fPi0L_SPinECAL" ,   100, 0  , 1    );
    fPi0L_SPinHCAL = new TH1F( "fPi0L_SPinHCAL", "fPi0L_SPinHCAL" ,   100, 0  , 1    );
@@ -197,82 +197,6 @@ void GFlash::Loop(TString fname)
      Class->GetXaxis()->SetBinLabel(i,type[i-1]);
      Class->GetXaxis()->SetLabelSize(0.07);
   }
-//      c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//      c1->cd();
-//      h_eHadronic->SetLineColor(2);
-//      h_eHadronic->SetLineWidth(2);
-//      Intgral<<h_eHadronic->Integral();
-//      h_eHadronic->SetTitle((Intgral.str()).c_str());
-//      h_eHadronic->GetXaxis()->SetTitle("mm");
-//      h_eHadronic->GetYaxis()->SetTitle("energy");
-//      h_eHadronic->GetXaxis()->SetRangeUser(0,5000);
-//      ss <<"eHadronic"<<jentry<<".png";
-//      h_eHadronic->Draw("h");
-//      c1->Print((ss.str()).c_str(),"png");
-//      ss.str("");
-//      Intgral.str("");
-//      delete c1;
-//      c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//      c1->cd();
-//      HADshapeIL->SetLineColor(2);
-//      HADshapeIL->SetLineWidth(2);
-//      Intgral<<HADshapeIL->Integral();
-//      HADshapeIL->SetTitle((Intgral.str()).c_str());
-//      HADshapeIL->GetXaxis()->SetTitle("mm");
-//      HADshapeIL->GetYaxis()->SetTitle("energy");
-////      HADshapeIL->GetXaxis()->SetRangeUser(0,0);
-//      ss <<"eHadronic"<<jentry<<"_Lambda.png";
-//      HADshapeIL->Draw("HIST");
-//      c1->Print((ss.str()).c_str(),"png");
-//      ss.str("");
-//      Intgral.str("");
-//      delete c1;    
-//      delete HADshapeIL;
-//
-//      c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//      c1->cd();
-//      h_ePi0First->SetLineColor(2);
-//      h_ePi0First->SetLineWidth(2);
-//      h_ePi0First->GetXaxis()->SetTitle("mm");
-//      h_ePi0First->GetYaxis()->SetTitle("energy");
-//      h_ePi0First->GetXaxis()->SetRangeUser(0,5000);
-//      ss <<"ePi0First"<<jentry<<".png";
-//      h_ePi0First->Draw("h");
-////      c1->Print((ss.str()).c_str(),"png");
-//      ss.str("");
-//      delete c1;
-//
-//      c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//      c1->cd();
-//      h_ePi0Late->SetLineColor(2);
-//      h_ePi0Late->SetLineWidth(2);
-//      h_ePi0Late->GetXaxis()->SetTitle("mm");
-//      h_ePi0Late->GetYaxis()->SetTitle("energy");
-//      h_ePi0Late->GetXaxis()->SetRangeUser(0,5000);
-//      ss <<"ePi0Late"<<jentry<<".png";
-//      h_ePi0Late->Draw("h");
-////      c1->Print((ss.str()).c_str(),"png");
-//      ss.str("");
-//      delete c1;
-      // if (Cut(ientry) < 0) continue;
-
-//   c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//   c1->cd();
-//   fDp->Draw("h");
-//   c1->Print("fDp.png","png");
-//   delete c1;
-//
-//   c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//   c1->cd();
-//   fPi0->Draw("h");
-//   c1->Print("fPi0.png","png");
-//   delete c1;
-//
-//   c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
-//   c1->cd();
-//   fPi0L->Draw("h");
-//   c1->Print("fPi0L.png","png");
-//   delete c1;
 
   fPi0->Write("",TObject::kOverwrite);
   fPi0_SPbeforeECAL->Write("",TObject::kOverwrite);
@@ -290,6 +214,7 @@ void GFlash::Loop(TString fname)
   Class_SPbeforeECAL->Write("",TObject::kOverwrite);
   Class_SPinECAL->Write("",TObject::kOverwrite);
   Class_SPinHCAL->Write("",TObject::kOverwrite);
+  
   delete fPi0;
   delete fPi0_SPbeforeECAL;
   delete fPi0_SPinECAL;
